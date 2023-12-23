@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dice Roller</title>
+</head>
+<body onload="initializeDice()">
+  <h1>Dice Roller</h1>
+  <div id="dice-container"></div>
+  <button onclick="rollDice()">Roll 12 Dice</button>
+  <div id="result"></div>
+
+  <script>
+    function initializeDice() {
+      const diceContainer = document.getElementById('dice-container');
+
+      // Display 12 dice with face 1
+      for (let i = 0; i < 12; i++) {
+        const img = document.createElement('img');
+        img.src = 'die1.png';
+        img.alt = 'Die 1';
+        diceContainer.appendChild(img);
+      }
+    }
+
+    function rollDice() {
+      const diceContainer = document.getElementById('dice-container');
+      const resultDiv = document.getElementById('result');
+
+      // Clear previous dice
+      diceContainer.innerHTML = '';
+
+      // Roll 12 dice
+      const rolls = [];
+      for (let i = 0; i < 12; i++) {
+        const roll = Math.floor(Math.random() * 6) + 1;
+        rolls.push(roll);
+
+        // Create and append dice image
+        const img = document.createElement('img');
+        img.src = `die${roll}.png`;
+        img.alt = `Die ${roll}`;
+        diceContainer.appendChild(img);
+      }
+
+      // Calculate and display probability
+      const counts = Array(6).fill(0);
+      rolls.forEach(roll => counts[roll - 1]++);
+      
+      resultDiv.innerHTML = '<h2>Probability:</h2>';
+      for (let i = 0; i < counts.length; i++) {
+        const probability = (counts[i] / 12 * 100).toFixed(2);
+        resultDiv.innerHTML += `<p>Face ${i + 1}: ${probability}%</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
